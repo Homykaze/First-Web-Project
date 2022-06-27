@@ -1,4 +1,6 @@
-# My first web page and JS programming project 'pathfinder'
-## Implemented in April 2021
-Started as a C++ developer, but decided to showcase my abilities with algorithms in JS as it was easier to visually implement what I had in mind with it other than with C++.
-I didn't know much about JS and this code is very well 'spaghettified', but I find it quite fun for a first project.
+# My first web page and JS programming projects
+Started as a C++ developer, but decided to showcase my abilities with algorithms in JS as it was easier to visually implement what I had in mind with it other than with C++. I had to spend about a week to create the layout for the webpage before doing the projects.
+## Pathfinder: Implemented in April 2021
+Implemented Dijkstra's pathfinding algorithm for search and Recursive division for maze generation on a grid of nodes with a start and finish nodes, realized functionality to create walls and remove them. I didn't know much about JS and this code is very well 'spaghettified', but I find it quite fun for a first project. It took about 5 days to complete this project.
+## Speed typing test: Implemented in September 2021
+Developed a program based on event listeners and a timer, which are processing real-time input data, resulting in a speed typing test. Tried to keep this code a little more organized this time. Got to know much more about JS by the moment of implementation of this project. Spent about 3 days to complete it.

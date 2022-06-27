@@ -125,20 +125,76 @@ header ul{
 	width: 100%;
 }
 
-#output{
-    margin:0;
-	padding:0;
-	width: 100%;
-	border-spacing: 0;
+.container{
+	width:50%;
+	margin:auto;
 }
 
-.line{
-	width:50%;
-	height: 50px;
-	margin-left:300px;
-	font-size:30px;
+#userInput{
+	width:79%;
+	font-size: 30px;
+	padding: 5px;
+	border:none;
 	outline: none;
-	border: none;
+	margin: 100px 0 0 0;
+}
+
+#reset{
+	height: 44px;
+	float:right;
+	margin:100px 0 0 0;
+	border: 0;
+	width:19%;
+	cursor:pointer;
+	background-color: #fff;
+}
+
+#output{
+	margin: 20px 0 0 0;
+	padding: 5px;
+	min-height: 100px;
+	width: 100%;
+	background: #fff;
+	color: #14213d;
+	font-size: 25px;
+	word-spacing: 20px;
+}
+
+#score{
+	font-size:100px;
+	color: #14213d;
+	width: 50%;
+	float:left;
+	margin: 20px 0 0 0;
+}
+
+#timer{
+	font-size:100px;
+	color: #14213d;
+	width: 50%;
+	float:left;
+	text-align: right;
+	margin: 20px 0 0 0;
+}
+
+#result{
+	font-size:20px;
+	color: #14213d;
+	width: 100%;
+	float:left;
+	margin: 20px 0 0 0;
+}
+
+.default{
+	color: #14213d;
+}
+
+.invisible{
+	display:none;
+}
+
+.visible{
+	display: block;
 }
 
 /*Content*//*Content*//*Content*//*Content*//*Content*//*Content*//*Content*//*Content*//*Content*/
@@ -234,3 +290,90 @@ footer p{
 #text a{
 	color:#FCA311;;
 }
+
+@media(max-width: 1450px){
+	header{
+		min-height: 70px;
+	}
+
+	.container{
+		width:60%;
+	}
+	
+	#userInput{
+		width:69%;
+	}
+	
+	#reset{
+		width:29%;
+	}
+	
+	#output{
+		font-size: 22px;
+		word-spacing: 16px;
+	}
+	
+	#score, #timer{
+		font-size:90px;
+	}
+	
+	#result{
+		font-size:20px;
+		color: #14213d;
+		width: 100%;
+		float:left;
+		margin: 20px 0 0 0;
+	}
+}
+
+@media(max-width: 800px){
+	.preheader{
+		min-height:57px;
+	}
+
+	header{
+		min-height: 100px;
+	}
+
+	.container{
+		width:75%;
+	}
+	
+	#userInput, #reset{
+		width:100%;
+		float: none;
+		margin-top: 75px;
+	}
+
+	#reset{
+		margin-top: 20px;
+	}
+	
+	#output{
+		font-size: 18px;
+		word-spacing: 14px;
+	}
+	
+	#score, #timer{
+		font-size: 64px;
+		width:100%;
+		float: none;
+		text-align:center;
+	}
+	
+	#result{
+		float:none;
+	}
+}
+
+@media(max-width: 400px){
+	.preheader{
+		min-height:57px;
+	}
+
+	header{
+		min-height: 150px;
+	}
+}
+
+
