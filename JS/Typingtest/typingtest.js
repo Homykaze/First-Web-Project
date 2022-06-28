@@ -19,6 +19,9 @@ let timerRunning = false;
 let readyToStart = true;
 //Words counter
 let correctWords = 0;
+//Buffer symbols
+let extraSymbols = '';
+let pastSpace = false;
 //Characters taken by words in the output section
 let charactersTaken = 0;
 
@@ -28,64 +31,80 @@ inputBar.addEventListener('keyup', function(e) {
         if (e.code === "Enter"){
             e.target.value += " ";
         }
+        //If the typer is really quick
+        for (let i = 0; i < e.target.value.length; ++i){
+            if (pastSpace){
+                extraSymbols += e.target.value[i];
+            }
+            if (e.target.value[i] === " " && i != 0){
+                pastSpace = true;
+            }
+        }
         if (e.target.value === outputBar.firstChild.textContent){
             ++correctWords;
             score.innerHTML = correctWords;
             //Color carousel
+            let red, green, blue;
             if (correctWords <= 10){
-                let red = 20 + correctWords * 23;
-                let green = 33 - correctWords * 3;
-                let blue = 61 - correctWords * 6;
-                //Getting to red 235 90 50 from dark blue 20 33 61
+                red = 20 + correctWords * 23;
+                green = 33 - correctWords * 3;
+                blue = 61 - correctWords * 6;
+                //Getting to red 250 3 1 from dark blue 20 33 61
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             }
             else if (correctWords <= 20){
-                let red = 255 - 2 * correctWords;
-                let green = 9 * correctWords;
-                let blue = 5 * correctWords;
+                red = 255 - 2 * (correctWords - 10);
+                green = 9 * (correctWords - 10);
+                blue = 5 * (correctWords - 10);
                 //Getting to red-orange 235 90 50 from pure red 255 0 0
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             } else if (correctWords <= 30) {
-                let red = 235;
-                let green = 90 + (correctWords - 10) * 11;
-                let blue = 50;
+                red = 235;
+                green = 90 + (correctWords - 20) * 12;
+                blue = 50;
                 //Getting yellow 235 200 50
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             } else if (correctWords <= 40) {
-                let red = 235 - (correctWords - 20) * 5;
-                let green = 205 + (correctWords - 20) * 5;
-                let blue = 50;
+                red = 235 - (correctWords - 30) * 5;
+                green = 205 + (correctWords - 30) * 5;
+                blue = 50;
                 //Getting acid-green 180 255 50
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             } else if (correctWords <= 50) {
-                let red = 180 - (correctWords - 30) * 18;
-                let green = 250 - (correctWords - 30) * 4;
-                let blue = 50;
+                red = 180 - (correctWords - 40) * 18;
+                green = 250 - (correctWords - 40) * 4;
+                blue = 50;
                 //Getting nice-green 0 210 50
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             } else if (correctWords <= 60) {
-                let red = 0;
-                let green = 210 - (correctWords - 40) * 3;
-                let blue = 50 + (correctWords - 40) * 15;
+                red = 0;
+                green = 210 - (correctWords - 50) * 3;
+                blue = 50 + (correctWords - 50) * 15;
                 //Getting light-blue 0 180 200
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
-            } else if (correctWords <= 60) {
-                let red = (correctWords - 50) * 10;
-                let green = 180 - (correctWords - 50) * 18;
-                let blue = 200;
+            } else if (correctWords <= 70) {
+                red = (correctWords - 60) * 10;
+                green = 180 - (correctWords - 60) * 18;
+                blue = 200;
                 //Getting purple 100 0 200
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             } else {
-                let red = 160 - correctWords;
-                let green = 0;
-                let blue = 255 - correctWords;
+                red = 160 - correctWords;
+                green = 0;
+                blue = 255 - correctWords;
                 //Getting to black
                 score.style.color = "rgb(" + red + "," + green + "," + blue + ")";
             }
         }
         charactersTaken -= (outputBar.firstChild.length - 1);
         outputBar.firstChild.remove();
-        e.target.value = "";
+        if (extraSymbols){
+            e.target.value = extraSymbols;
+            extraSymbols = '';
+        } else {
+            e.target.value = "";
+        }
+        pastSpace = false;
         displayWords();
     }
     if (time <= 0){
@@ -129,9 +148,8 @@ resetButton.addEventListener('click', function() {
 const getRandomInt = (max) => Math.floor(Math.random() * max);
 //Add words to the output section in DOM
 function displayWords() {
-    //60 chars per line, 2 lines => 120 chars
-    while (charactersTaken < 150) {
-        let currentWord = words[getRandomInt(100)];
+    while (charactersTaken < 146) {
+        let currentWord = words[getRandomInt(211)];
         outputBar.appendChild(document.createTextNode(currentWord + ' '));
         charactersTaken += currentWord.length;
     }
@@ -161,9 +179,14 @@ function displayResult() {
     result.innerHTML = `Your typing speed is ${correctWords} WPM or ${wps} WPS.`;
     result.className = "visible";
 }
+
 //Setting up words
-function setWords()
-{
+setWords();
+//Fill in the output section
+displayWords();
+
+//Setting up words
+function setWords() {
     words[0] = "ability";
     words[1] = "about";
     words[2] = "above";
@@ -292,32 +315,114 @@ function setWords()
     words[116] = "job";
     words[117] = "join";
 
-    // words[118] = "idea";
-    // words[119] = "illegal";
-    // words[120] = "immediately";
-    // words[121] = "implement";
-    // words[122] = "importance";
-    // words[123] = "include";
-    // words[124] = "index";
-    // words[125] = "Indian";
-    // words[126] = "install";
+    words[118] = "keep";
+    words[119] = "kitchen";
+    words[120] = "kind";
+    words[121] = "know";
+    words[122] = "knowledge";
 
-    // words[127] = "Japanese";
-    // words[128] = "Jewish";
-    // words[129] = "judge";
-    // words[130] = "juice";
-    // words[131] = "just";
-    // words[132] = "junior";
-    // words[133] = "joke";
-    // words[134] = "job";
-    // words[135] = "join";
+    words[123] = "land";
+    words[124] = "languages";
+    words[125] = "large";
+    words[126] = "legal";
+    words[127] = "little";
+    words[128] = "live";
+
+    words[129] = "machine";
+    words[130] = "mean";
+    words[131] = "member";
+    words[132] = "message";
+    words[133] = "might";
+    words[134] = "minute";
+    words[135] = "modern";
+    words[136] = "moment";
+    words[137] = "music";
+
+    words[138] = "name";
+    words[139] = "need";
+    words[140] = "night";
+    words[141] = "nothing";
+    words[142] = "number";
+
+    words[143] = "occur";
+    words[144] = "office";
+    words[145] = "often";
+    words[146] = "operation";
+    words[147] = "organization";
+    words[148] = "others";
+    words[149] = "outside";
+    words[150] = "over";
+
+    words[151] = "painting";
+    words[152] = "particularly";
+    words[153] = "pattern";
+    words[154] = "performance";
+    words[155] = "phone";
+    words[156] = "place";
+    words[157] = "picture";
+    words[158] = "population";
+    words[159] = "president";
+    words[160] = "project";
+    words[161] = "public";
+
+    words[162] = "quality";
+    words[163] = "question";
+    words[164] = "quickly";
+    words[165] = "quite";
+
+    words[166] = "rate";
+    words[167] = "rather";
+    words[168] = "reach";
+    words[169] = "reality";
+    words[170] = "remain";
+    words[171] = "right";
+    words[172] = "road";
+    words[173] = "room";
+
+    words[174] = "same";
+    words[175] = "school";
+    words[176] = "season";
+    words[177] = "shoulder";
+    words[178] = "significant";
+    words[179] = "skill";
+    words[180] = "small";
+    words[181] = "something";
+    words[182] = "success";
+    words[183] = "system";
+
+    words[184] = "table";
+    words[185] = "teacher";
+    words[186] = "themselves";
+    words[187] = "timer";
+    words[188] = "together";
+    words[189] = "traditional";
+    words[190] = "turn";
+    words[191] = "TV";
+    words[192] = "type";
+
+    words[193] = "understand";
+    words[194] = "until";
+    words[195] = "usually";
+    words[196] = "use";
+
+    words[197] = "value";
+    words[198] = "view";
+    words[199] = "visit";
+    words[200] = "voice";
+
+    words[201] = "watch";
+    words[202] = "weapon";
+    words[203] = "western";
+    words[204] = "whether";
+    words[205] = "weather";
+    words[206] = "window";
+
+    words[207] = "year";
+    words[208] = "young";
+    words[209] = "yourself";
+
+    words[210] = "zebra";
 }
-
-//Fill in the array
-setWords();
-//Fill in the output section
-displayWords();
-
 //Overlay funcitons, not related to the project
 const on = () => document.getElementById("overlay").style.display = "block";
 const off = () => document.querySelector("#overlay", "#introduction").style.display = "none";
