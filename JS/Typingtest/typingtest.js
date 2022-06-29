@@ -22,12 +22,13 @@ let correctWords = 0;
 //Buffer symbols
 let extraSymbols = '';
 let pastSpace = false;
+let fullWord = "";
 //Characters taken by words in the output section
 let charactersTaken = 0;
 
 //Listening for Enter or Space clicks to remove words and update the counter
 inputBar.addEventListener('keyup', function(e) {
-    if (e.code === "Enter" || e.code === "Space"){
+    if (e.keyCode === 13|| e.keyCode === 32){
         if (e.code === "Enter"){
             e.target.value += " ";
         }
@@ -35,12 +36,14 @@ inputBar.addEventListener('keyup', function(e) {
         for (let i = 0; i < e.target.value.length; ++i){
             if (pastSpace){
                 extraSymbols += e.target.value[i];
+            } else {
+                fullWord += e.target.value[i];
             }
             if (e.target.value[i] === " " && i != 0){
                 pastSpace = true;
             }
         }
-        if (e.target.value === outputBar.firstChild.textContent){
+        if (fullWord === outputBar.firstChild.textContent){
             ++correctWords;
             score.innerHTML = correctWords;
             //Color carousel
@@ -111,6 +114,7 @@ inputBar.addEventListener('keyup', function(e) {
         e.target.value = "";
         score.innerHTML = correctWords;
     }
+    fullWord = "";
 });
 //Event listener to start the timer
 inputBar.addEventListener('keydown', function() {
